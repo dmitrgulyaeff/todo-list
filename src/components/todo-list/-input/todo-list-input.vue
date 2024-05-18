@@ -7,15 +7,14 @@ import { ref } from 'vue';
 
   const title = ref('')
   
-  const handleSubmit = (e : SubmitEvent) =>{
-    e.preventDefault();
+  const handleSubmit = () =>{
     emit('addTodo', title.value)
     title.value = ''
   }
 </script>
 
 <template>
-  <form @:submit="handleSubmit">
+  <form @submit.prevent="handleSubmit">
     <input
       v-model="title"
       type="string"

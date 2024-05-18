@@ -4,7 +4,6 @@ import type { TTodo } from '../types';
 
 const props = defineProps<{
   todo: TTodo,
-  'isChecked': (arg0: TTodo) => boolean
 }>();
 
 const emit = defineEmits<{
@@ -23,7 +22,7 @@ const proxyTodo = computed({
 </script>
 
 <template>
-  <li v-if="isChecked(todo)">
+  <li>
     <label
       :for="'todo-' + todo.id"
       :class="{'label' : true, 'label_checked' : proxyTodo.completed}"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { defaultTodos } from './constants';
 import type { TTodo } from './types';
 import todoListItem from './-item/todo-list-item.vue';
@@ -12,6 +12,7 @@ const filterTodo = (t: TTodo) => {
 };
 
 const todos = ref<TTodo[]>(defaultTodos);
+const displayedTodos = computed(() => todos.value.filter(filterTodo)) 
 let id = todos.value.length;
 const addTodo = (title: TTodo['title']) => {
   const newTodo: TTodo = {
@@ -32,7 +33,7 @@ const deleteTodo = (todo: TTodo) => {
 <template>
   <ul>
     <todoListItem
-      v-for="(todo, index) in todos"
+      v-for="(todo, index) in displayedTodos"
       :key="todo.id"
       v-model:todo="todos[index]"
       :is-checked="filterTodo"

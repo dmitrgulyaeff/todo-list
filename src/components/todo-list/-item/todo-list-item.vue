@@ -1,51 +1,34 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import type { TTodo } from '../types';
 
-const props = defineProps<{
-  todo: TTodo,
-}>();
+const todo = defineModel<TTodo>('todo');
 
-const emit = defineEmits<{
-  'update:todo': [TTodo];
+defineEmits<{
   'delete:todo': [TTodo];
 }>();
-
-const proxyTodo = computed({
-  get() {
-    return props.todo;
-  },
-  set(newTodo) {
-    emit('update:todo', newTodo);
-  },
-});
 </script>
 
 <template>
-  <li>
+  <li v-if="todo">
     <label
       :for="'todo-' + todo.id"
-      :class="{'label' : true, 'label_checked' : proxyTodo.completed}"
+      :class="{ label: true, label_checked: todo.completed }"
     >
       {{ todo.title }}
       <input
         :id="'todo-' + todo.id"
-        v-model="proxyTodo.completed"
+        v-model="todo.completed"
         type="checkbox"
       >
     </label>
-    <button @click="emit('delete:todo', todo)">
+    <button @click="$emit('delete:todo', todo)">
       delete
     </button>
   </li>
 </template>
 
 <style scoped>
-.label {
-
-}
-
 .label_checked {
-  text-decoration: line-through
+  text-decoration: line-through;
 }
 </style>
